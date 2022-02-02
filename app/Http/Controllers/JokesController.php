@@ -17,7 +17,7 @@ class JokesController extends Controller
         //
         $jokes = Joke::all();
 
-        return view('jokes.index', compact('jokes'));
+        return view('Jokes.index', compact('jokes'));
     }
 
     /**
@@ -28,7 +28,7 @@ class JokesController extends Controller
     public function create()
     {
         //
-        return view('jokes.create');
+        return view('Jokes.create');
     }
 
     /**
@@ -52,6 +52,8 @@ class JokesController extends Controller
 
         $joke->fill($data);
 
+        $joke->save();
+
         return redirect()->route('Jokes.show',$joke->id);
     }
 
@@ -65,8 +67,9 @@ class JokesController extends Controller
     {
         //
         $joke= Joke::find($id);
+
         if($joke){
-            return view('jokes.show',compact('joke'));
+            return view('Jokes.show',compact('joke'));
         }
         abort(404);
     }
@@ -80,6 +83,9 @@ class JokesController extends Controller
     public function edit($id)
     {
         //
+        $joke= Joke::find($id);
+
+        return view('Jokes.edit', compact('joke'));
     }
 
     /**
@@ -92,6 +98,12 @@ class JokesController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $data = $request->all();
+
+        $joke = Joke::find($id);
+        $joke->update($data);
+
+        return redirect()->route('Jokes.show',$joke->id);
     }
 
     /**
@@ -103,5 +115,9 @@ class JokesController extends Controller
     public function destroy($id)
     {
         //
+        $joke = Joke::find($id);
+
+        $joke->delete();
+        return redirect()->route('Jokes.index');
     }
 }
