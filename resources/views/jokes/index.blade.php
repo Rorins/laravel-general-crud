@@ -9,6 +9,7 @@
       <h3>
           {{$joke->title}}
       </h3>
+      <a href="{{root(jokes.show, $joke->$id)}}">Read more</a>
     </article> 
 @empty
     <p>
